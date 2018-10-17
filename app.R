@@ -4,7 +4,7 @@ library(leaflet)
 library(leafletCN)
 library(RColorBrewer)
 
-ChinaGDP <- read.csv("year_count_map_data.csv",fileEncoding = "UTF-8",stringsAsFactors = F)
+ChinaGDP <- read.csv("https://raw.githubusercontent.com/Judioljuse/shiny_map/master/year_count_map_data.csv",fileEncoding = "UTF-8",stringsAsFactors = F)
 #str(ChinaGDP)
 
 ui <- bootstrapPage(
