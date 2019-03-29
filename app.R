@@ -72,7 +72,7 @@ server <- function(input, output, session) {
       #加入框边界及颜色
       addPolygons(stroke = TRUE,
                   smoothFactor = 1,
-                  fillOpacity = 0.7,
+                  fillOpacity = 0.4,
                   weight = 0.4,
                   fillColor = ~pal(value),
                   color = "white",
@@ -81,7 +81,7 @@ server <- function(input, output, session) {
                     weight = 0.4,
                     color = "#666",
                     dashArray = "",
-                    fillOpacity = 0.7,
+                    fillOpacity = 0.4,
                     bringToFront = TRUE)
       )
       #加入右下角边框
@@ -100,7 +100,7 @@ server <- function(input, output, session) {
     leafletProxy("map", data = map) %>%
       addPolygons(stroke = TRUE,
                   smoothFactor = 1,
-                  fillOpacity = 0.7,
+                  fillOpacity = 0.4,
                   weight = 0.3,
                   fillColor = ~pal(value),
                   color = "white",
@@ -109,7 +109,7 @@ server <- function(input, output, session) {
                     weight = 0.3,
                     color = "#666",
                     dashArray = "",
-                    fillOpacity = 0.5,
+                    fillOpacity = 0.4,
                     bringToFront = TRUE),
                   label = labels,
                   labelOptions = labelOptions(
