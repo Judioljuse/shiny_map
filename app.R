@@ -106,7 +106,7 @@ server <- function(input, output, session) {
                   color = "white",
                   popup = ~htmltools::htmlEscape(popup),
                   highlight = highlightOptions(
-                    weight = 5,
+                    weight = 0.5,
                     color = "#666",
                     dashArray = "",
                     fillOpacity = 0.7,
