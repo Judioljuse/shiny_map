@@ -78,7 +78,7 @@ server <- function(input, output, session) {
                   color = "white",
                   popup = ~htmltools::htmlEscape(popup),
                   highlight = highlightOptions(
-                    weight = 5,
+                    weight = 0.4,
                     color = "#666",
                     dashArray = "",
                     fillOpacity = 0.7,
@@ -101,15 +101,15 @@ server <- function(input, output, session) {
       addPolygons(stroke = TRUE,
                   smoothFactor = 1,
                   fillOpacity = 0.7,
-                  weight = 0.5,
+                  weight = 0.3,
                   fillColor = ~pal(value),
                   color = "white",
                   popup = ~htmltools::htmlEscape(popup),
                   highlight = highlightOptions(
-                    weight = 0.5,
+                    weight = 0.3,
                     color = "#666",
                     dashArray = "",
-                    fillOpacity = 0.7,
+                    fillOpacity = 0.5,
                     bringToFront = TRUE),
                   label = labels,
                   labelOptions = labelOptions(
