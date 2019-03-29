@@ -4,26 +4,26 @@ library(leaflet)
 library(leafletCN)
 library(RColorBrewer)
 
-ChinaGDP <- read.csv("https://raw.githubusercontent.com/Judioljuse/shiny_map/master/year_count_map_data.csv",fileEncoding = "UTF-8",stringsAsFactors = F)
-#str(ChinaGDP)
+map_data <- read.csv("https://raw.githubusercontent.com/Judioljuse/shiny_map/master/year_count_map_data.csv",fileEncoding = "UTF-8",stringsAsFactors = F)
+#str(map_data)
 
 ui <- bootstrapPage(
   tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
   leafletOutput("map", width = "100%", height = "100%"),
   absolutePanel(top = 10, right = 10,
-                sliderInput("range", "Number of student", min(ChinaGDP$count), max(ChinaGDP$count),
-                            value = range(ChinaGDP$count), step = 10
+                sliderInput("range", "Number of student", min(map_data$count), max(map_data$count),
+                            value = range(map_data$count), step = 10
                 ),
-                sliderInput("year", "chose year", min(ChinaGDP$year), max(ChinaGDP$year),
-                            value = min(ChinaGDP$year), step = 1,
+                sliderInput("year", "chose year", min(map_data$year), max(map_data$year),
+                            value = min(map_data$year), step = 1,
                             animate = animationOptions(interval = 4000,loop = TRUE, playButton = NULL,
                                                        pauseButton = NULL)
                 ),
                 selectInput("college", "college",selected="全部",
-                            c('全部',unique(ChinaGDP$学院))
+                            c('全部',unique(map_data$学院))
                 ),
                 selectInput("major", "major",selected="全部",
-                            c('全部',unique(ChinaGDP$专业))
+                            c('全部',unique(map_data$专业))
                 ),
 
                 #selectInput("colors", "Color Scheme",
@@ -36,25 +36,25 @@ ui <- bootstrapPage(
 server <- function(input, output, session) {
 
   filteredData <- reactive({
-    ChinaGDP <- ChinaGDP[ChinaGDP$year==input$year[1],]
+    map_data <- map_data[map_data$year==input$year[1],]
 
     if (input$college !="全部") {
-      ChinaGDP <- ChinaGDP[ChinaGDP$学院==input$college,]
+      map_data <- map_data[map_data$学院==input$college,]
     }
     if (input$major!="全部") {
-      ChinaGDP <- ChinaGDP[ChinaGDP$专业==input$major,]
+      map_data <- map_data[map_data$专业==input$major,]
     }
-    ChinaGDP <- ChinaGDP[ChinaGDP$count >= input$range[1] & ChinaGDP$count <= input$range[2],]
+    map_data <- map_data[map_data$count >= input$range[1] & map_data$count <= input$range[2],]
 
-    dat <- aggregate(ChinaGDP$count, by=list(Category=ChinaGDP$city), FUN=sum)
+    dat <- aggregate(map_data$count, by=list(Category=map_data$city), FUN=sum)
     leafletGeo("city", dat)
 
   })
 
   colorpal <- reactive({
-    #colorNumeric(input$colors, ChinaGDP$count,reverse = TRUE)
+    #colorNumeric(input$colors, map_data$count,reverse = TRUE)
     bins <- c(0,1,10, 20, 50, 100, 200, 500, 1000, Inf)
-    pal <- colorBin("YlOrRd", domain = ChinaGDP$count, bins = bins)
+    pal <- colorBin("YlOrRd", domain = map_data$count, bins = bins)
   })
 
 
@@ -135,10 +135,10 @@ server <- function(input, output, session) {
   })
   observe({
     x <- input$year
-    ChinaGDP <- ChinaGDP[ChinaGDP$year==input$year[1],]
+    map_data <- map_data[map_data$year==input$year[1],]
     updateSelectInput(session, "college",
                       label = paste("college"),
-                      choices = c('全部',unique(ChinaGDP$学院)),
+                      choices = c('全部',unique(map_data$学院)),
                       selected = '全部'
     )
   })
@@ -150,7 +150,7 @@ server <- function(input, output, session) {
 
     updateSelectInput(session, "major",
                       label = paste("major", length(x)),
-                      choices = c('全部',unique(ChinaGDP[ChinaGDP$学院==x,]$专业)),
+                      choices = c('全部',unique(map_data[map_data$学院==x,]$专业)),
                       selected = '全部'
     )
   })
